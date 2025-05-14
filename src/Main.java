@@ -3,6 +3,11 @@ interface MyInterface {
         System.out.println("Default doing something");
     }
 }
+interface AnotherInterface {
+    default void doSomethingElse(){
+        System.out.println("Default doing something else");
+    }
+}
 
 class ClassA implements MyInterface {
     @Override
@@ -11,7 +16,7 @@ class ClassA implements MyInterface {
     }
 }
 
-class ClassB implements MyInterface{
+class ClassB implements MyInterface, AnotherInterface{
     public void doSomethingElse() {
         System.out.println("Class B doing something else");
     }
@@ -31,8 +36,13 @@ public class Main {
                 ((MyInterface) obj).doSomething();
 //                MyInterface myInterface = (MyInterface) obj;
 //                myInterface.doSomething();
-            } else {
-                System.out.println("Object does not implement MyInterface");
+            }
+
+            if (obj instanceof AnotherInterface) {
+                ((AnotherInterface) obj).doSomethingElse();
+            }
+            if(!(obj instanceof MyInterface && !(obj instanceof AnotherInterface))){
+                System.out.println("Object does not implement either Interface");
             }
         }
     }
